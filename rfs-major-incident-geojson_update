@@ -46,7 +46,7 @@ if [ $? -ne 0 ] ; then
 fi
 
 # convert the GeoRSS to GeoJSON
-ogr2ogr -f 'GeoJSON' "$geojson" "$FILE"
+ogr2ogr -f 'GeoJSON' "$geojson" "$FILE" 2> /dev/null
 
 # At the time of writing, the GeoRSS feed supplied by the RFS doesn't conform
 # with the GeoRSS specification, because it contains single point polygons. As
