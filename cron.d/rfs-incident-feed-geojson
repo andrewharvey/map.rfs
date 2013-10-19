@@ -9,6 +9,10 @@
 # with this work has waived all copyright and related or neighboring
 # rights to this work.
 # http://creativecommons.org/publicdomain/zero/1.0/
+#
+# According to the RFS web site their incident information is only updated every
+# 30 minutes, which I think is too long, but given this, polling every 10
+# minutes from our end seems like a good interval.
 
 # m h dom mon dow user  command
-* * * * *      root    [ -x /usr/sbin/rfs-major-incident-geojson_update ] && /usr/sbin/rfs-major-incident-geojson_update /var/www/majorIncidents.geojson > /dev/null
+*/10 * * * *      root    [ -x /usr/sbin/rfs-major-incident-geojson_update ] && /usr/sbin/rfs-major-incident-geojson_update /var/www/majorIncidents.geojson > /dev/null
