@@ -16,170 +16,95 @@
         <!--[if lte IE 8]><link rel="stylesheet" href="/javascript/fonts-font-awsome/css/font-awesome-ie7.min.css" /><![endif]-->
         <script src="/javascript/leaflet/leaflet.js"></script>
         <script src="lib/leaflet-awsome-markers/leaflet.awesome-markers.min.js"></script>
+        <script src="hoverPopupMarker.js"></script>
         <script src="/javascript/jquery/jquery.min.js"></script>
+        <script src="lib/bootbox.min.js"></script>
+        <script src="lib/mustache.js"></script>
+        <script src="lib/moment.min.js"></script>
+
+        <link rel="stylesheet" href="/javascript/bootstrap/css/bootstrap.min.css">
+        <script src="/javascript/bootstrap/js/bootstrap.min.js"></script>
 
         <!-- full screen map, no chrome -->
         <style>
+                /* full screen */
                 body {
-                        padding: 0;
-                        margin: 0;
+                    padding: 0;
+                    margin: 0;
                 }
                 html, body, #map {
-                        height: 100%;
+                    height: 100%;
+                }
+
+                /* Disclaimer Modal */
+                #disclaimer_overlay {
+                    position: fixed;
+                    z-index:100;
+                    top: 0px;
+                    left: 0px;
+                    height:100%;
+                    width:100%;
+                    background: #000;
+                    display: none;
+                }
+
+
+                /**************************************************************
+                  Popup Style
+                  ************************************************************/
+
+                /* overwrite default leaflet styles */
+                .leaflet-popup-content {
+                    line-height: 1.0;
+                }
+
+                /* graphic info-box */
+                .info-box {
+                    text-align: center;
+                    padding: 10px;
+                }
+
+                /* put one box on the left and one on the right */
+                .alert-box {
+                    width: 50%;
+                    float: left;
+                }
+                .status-box {
+                    width: 50%;
+                    float: right;
+                }
+                
+                /* text-value for the info-box's */
+                .box-label {
+                    font-weight: bold;
+                    font-size: 125%;
+                }
+
+                .row {
+                    /*margin-bottom: 5px;*/
+                }
+
+                h4 {
+                    text-align: center;
+                    font-weight: bold;
+                }
+
+                .subscribe {
+                    text-align: center;
+                }
+
+                /* properties table */
+                .key {
+                    font-weight: bold;
+                }
+                .key:after {
+                    content: ": ";
                 }
         </style>
 </head>
 <body>
         <div id="map"></div>
-        <script>
-                /* set colors according to alert levels */
-                var alertLevelStyle = {
-                    'emergency': 'red',
-                    'watchAndAct': 'orange',
-                    'advice': 'yellow',
-                    'notApplicable': 'grey'
-                };
-
-                var markerIcon = 'fire';
-
-                /* now create the polygon styles */
-                var emergencyPolygonStyle = {
-                    'color': alertLevelStyle.emergency
-                };
-                var watchAndActPolygonStyle = {
-                    'color': alertLevelStyle.watchAndAct
-                };
-                var advicePolygonStyle = {
-                    'color': alertLevelStyle.advice
-                };
-                var notApplicablePolygonStyle = {
-                    'color': alertLevelStyle.notApplicable
-                };
-
-                /* now create the markers */
-                var emergencyIcon = L.AwesomeMarkers.icon({
-                    icon: markerIcon,
-                    color: alertLevelStyle.emergency 
-                });
-                var watchAndActIcon = L.AwesomeMarkers.icon({
-                    icon: markerIcon,
-                    color: alertLevelStyle.watchAndAct
-                });
-                var adviceIcon = L.AwesomeMarkers.icon({
-                    icon: markerIcon,
-                    color: alertLevelStyle.advice
-                });
-                var notApplicableIcon = L.AwesomeMarkers.icon({
-                    icon: 'info',
-                    color: alertLevelStyle.notApplicable
-                });
-
-                /* set the polygon style for this feature */
-                function polygonStyle(feature) {
-                    if (feature.properties && feature.properties.category) {
-                        switch (feature.properties.category) {
-                            case 'Emergency Warning':
-                                return emergencyPolygonStyle;
-                                break;
-                            case 'Watch and Act':
-                                return watchAndActPolygonStyle;
-                                break;
-                            case 'Advice':
-                                return advicePolygonStyle;
-                                break;
-                            case 'Not Applicable':
-                                return notApplicablePolygonStyle;
-                                break;
-                            default:
-                                return {};
-                        }
-                    } else {
-                        return {}; /* default style */
-                    }
-                }
-
-                /* create a marker for this feature */
-                function createMarker(feature, latlng) {
-                    var icon = new L.Icon.Default();
-
-                    if (feature.properties && feature.properties.category) {
-                        switch (feature.properties.category) {
-                            case 'Emergency Warning':
-                                icon = emergencyIcon;
-                                break;
-                            case 'Watch and Act':
-                                icon = watchAndActIcon;
-                                break;
-                            case 'Advice':
-                                icon = adviceIcon;
-                                break;
-                            case 'Not Applicable':
-                                icon = notApplicableIcon;
-                                break;
-                        }
-                    }
-
-                    return L.marker(latlng, { icon: icon });
-                }
-
-                /* for each feature from the GeoJSON do some extra tasks */
-                function onEachFeature(feature, layer) {
-                    /* create HTML content for the popup */
-                    var html = '';
-                    
-                    if (feature.properties) {
-                        if (feature.properties.title) {
-                            html += '<h2>';
-
-                            if (feature.properties.link)
-                                html += '<a href="' + feature.properties.link + '">';
-
-                            html += feature.properties.title;
-
-                            if (feature.properties.link)
-                                html += '</a>';
-
-                            html += '</h2>';
-                        }
-
-                        if (feature.properties.description) {
-                            html += '<p>' + feature.properties.description + '</p>';
-                        }
-                    }
-
-                    /* bind a popup to the current feature layer using our
-                       content we have just defined */
-                    layer.bindPopup(html);
-
-                    /* if the feature is a polygon also create a center marker
-                       because tiny polygons are easily missed */
-                    if (feature.geometry.type == 'Polygon') {
-                        var centerMarker = createMarker(feature, layer.getBounds().getCenter()).addTo(map);
-                        centerMarker.bindPopup(html);
-                    }
-                }
-
-                /* create the leaflet map */
-                var map = L.map('map');
-
-                /* set the view for NSW ( S W N E ) */
-                map.fitBounds([
-                            [-37.614, 140.756],
-                            [-28.071, 153.896]
-                        ]);
-
-                L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        maxZoom: 18,
-                        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
-                }).addTo(map);
-
-                $.getJSON('majorIncidents.geojson', function (data) {
-                        L.geoJson(data, {
-                            style: polygonStyle,
-                            pointToLayer: createMarker,
-                            onEachFeature: onEachFeature
-                        }).addTo(map);
-                });
-        </script>
+        <script src="popupTemplate.js"></script>
+        <script src="map.js"></script>
 </body>
 </html>

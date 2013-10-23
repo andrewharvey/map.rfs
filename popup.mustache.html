@@ -1,0 +1,75 @@
+<!--
+Mustache template for the popup
+This file is licenced CC0 http://creativecommons.org/publicdomain/zero/1.0/
+-->
+<div id="popup">
+    <h4>{{title}}</h4>
+    <div class="row">
+        <div class="alert-box info-box">
+            <span class="key">Alert Level</span>
+            <br>
+            <span class="icon-stack icon-3x">
+                <i class="icon-sign-blank icon-stack-base
+                    {{alert-color}}"></i>
+                <i class="icon-fire icon-light"></i>
+            </span>
+            <br>
+            <span class="{{alert-color}} box-label">{{alert-text}}</span>
+        </div>
+        <div class="status-box info-box">
+            <span class="key">Status</span>
+            <br>
+            <span class="icon-stack icon-3x">
+                <i class="icon-sign-blank icon-stack-base
+                    {{status-color}}"></i>
+                <i class="icon-fire icon-light"></i>
+            </span>
+            <br>
+            <span class="{{status-color}} box-label">{{status-text}}</span>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <table class="table table-condensed table-striped">
+            <tbody>
+                <tr>
+                    <td class="key">Type</td>
+                    <td>{{type}}</td>
+                </tr>
+
+                <tr>
+                    <td class="key">Fire</td>
+                    <td>{{fire}}</td>
+                </tr>
+
+                <tr>
+                    <td class="key">Size</td>
+                    <td>{{size}}</td>
+                </tr>
+
+                <tr>
+                    <td class="key">Council</td>
+                    <td>{{council}}</td>
+                </tr>
+
+                <tr>
+                    <td class="key">Responsible <br>Agency</td>
+                    <td>{{&responsible-agency}}</td>
+                </tr>
+
+                <tr>
+                    <td class="key">Last Updated</td>
+                    <td>{{last-update-human-ago}}; {{last-update-human}}<br>
+                        <small>({{last-update}})</small></td>
+                </tr>
+
+                <tr>
+                    <td class="key">Location</td>
+                    <td>{{&location}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="subscribe">
+        <span><small><a href="#">Subscribe to updates</a></small></span> <!-- TODO -->
+    </div>
+</div>
