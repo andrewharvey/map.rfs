@@ -65,6 +65,24 @@ function statusToClass(statusValue) {
     }
 }
 
+/* these descriptions are pulled verbatim from the RFS from
+ * http://www.rfs.nsw.gov.au/dsp_content.cfm?cat_id=683 */
+function statusToTooltip(statusValue) {
+    switch (statusValue) {
+        case 'Out of Control':
+            return 'Indicates any fire that is spreading on one or more flanks. Effective control strategies are not in place for the entire perimeter';
+            break;
+        case 'Being Controlled':
+            return 'Effective strategies are in operation or planned for the entire perimeter';
+            break;
+        case 'Under Control':
+            return 'The fire is at a stage where fire fighting resources are only required for patrol purposes and major re-ignition is unlikely';
+            break;
+        default:
+            return '';
+    }
+}
+
 var markerIcon = 'fire';
 
 /* now create the polygon styles */
@@ -193,6 +211,8 @@ function onEachFeature(feature, layer) {
             "alert-text": properties["ALERT LEVEL"],
             "status-color": statusToClass(properties["STATUS"]),
             "status-text": properties["STATUS"],
+            "status-tooltip": statusToTooltip(properties["STATUS"]),
+            "type": properties["TYPE"],
             "type": properties["TYPE"],
             "fire": properties["FIRE"],
             "size": properties["SIZE"],
