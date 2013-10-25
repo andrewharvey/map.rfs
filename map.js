@@ -5,7 +5,9 @@
  *
  */
 
-/* Give the user some context of what they are looking at.
+/* Provide the user some context of what they are looking at by a modal box on
+ * load.
+ *
  * Later this could be disclaimer warning users of what they should already
  * know. Since the source data is non-free I'll need to do whatever I can to
  * keep RFS happy with the use of it's data here. */
@@ -20,6 +22,8 @@ $(document).ready( function () {
         );
 });
 
+/* compile the Mustache popup template (makes it faster for repeated use as is
+ * the case here) */
 var compiledPopupTemplate = Mustache.compile(popupTemplateString);
 
 /* set colors according to alert levels */
@@ -30,6 +34,7 @@ var alertLevelStyle = {
     'notApplicable': 'grey'
 };
 
+/* set bootstrap text class's according to incident alert level */
 function alertToClass(alertValue) {
     switch (alertValue) {
         case 'Emergency Warning':
@@ -49,6 +54,7 @@ function alertToClass(alertValue) {
     }
 }
 
+/* set bootstrap text class's according to incident status */
 function statusToClass(statusValue) {
     switch (statusValue) {
         case 'Out of Control':
@@ -65,7 +71,8 @@ function statusToClass(statusValue) {
     }
 }
 
-/* these descriptions are pulled verbatim from the RFS from
+/* set tooltip explaining incident status
+ * these descriptions are pulled verbatim from the RFS from
  * http://www.rfs.nsw.gov.au/dsp_content.cfm?cat_id=683 */
 function statusToTooltip(statusValue) {
     switch (statusValue) {
@@ -83,9 +90,8 @@ function statusToTooltip(statusValue) {
     }
 }
 
-var markerIcon = 'fire';
 
-/* now create the polygon styles */
+/* create the fire polygon styles */
 var emergencyPolygonStyle = {
     'color': alertLevelStyle.emergency
 };
@@ -99,17 +105,20 @@ var notApplicablePolygonStyle = {
     'color': alertLevelStyle.notApplicable
 };
 
-/* now create the markers */
+/* icon to use for the fire markers */
+var fireMarkerIcon = 'fire';
+
+/* create the fire markers */
 var emergencyIcon = L.AwesomeMarkers.icon({
-    icon: markerIcon,
+    icon: fireMarkerIcon,
     color: alertLevelStyle.emergency 
 });
 var watchAndActIcon = L.AwesomeMarkers.icon({
-    icon: markerIcon,
+    icon: fireMarkerIcon,
     color: alertLevelStyle.watchAndAct
 });
 var adviceIcon = L.AwesomeMarkers.icon({
-    icon: markerIcon,
+    icon: fireMarkerIcon,
     color: alertLevelStyle.advice
 });
 var notApplicableIcon = L.AwesomeMarkers.icon({
@@ -117,9 +126,10 @@ var notApplicableIcon = L.AwesomeMarkers.icon({
     color: alertLevelStyle.notApplicable
 });
 
-/* set the polygon style for this feature */
+/* function to set the polygon style for each feature */
 function polygonStyle(feature) {
     if (feature.properties && feature.properties.category) {
+        /* style by RSS item category (which is the incident status) */
         switch (feature.properties.category) {
             case 'Emergency Warning':
                 return emergencyPolygonStyle;
@@ -207,13 +217,14 @@ function onEachFeature(feature, layer) {
             }
         }
 
-        /* now we have a proper object to work with */
+        /* now we have a proper properties object to work with */
 
         /* hmm... do we use feature.properties.pubDate or
          * feature.properties.description.UPDATED ?
          * They appear to be the same, except pubDate is less ambiguous because
          * it is GMT whereas UPDATED the time zone isn't specified. */
 
+        /* data we pass into our Mustache popup template */
         var templateData = {
             "title": ((feature.properties.title) ? feature.properties.title : 'Untitled'),
             "alert-color": alertToClass(properties["ALERT LEVEL"]),
@@ -233,18 +244,22 @@ function onEachFeature(feature, layer) {
             "location": properties["LOCATION"]
         };
 
+        /* generate the popup HTML from the template and template data */
         var html = compiledPopupTemplate(templateData);
 
         /* bind a popup to the current feature layer using our
-           content we have just defined */
+           popup content we have just defined */
         layer.bindPopup(html);
 
-        /* if the feature is a polygon also create a center marker
-           because tiny polygons are easily missed */
-        if (feature.geometry.type == 'Polygon') {
+        /* if the feature is a polygon could also create a center marker
+           because tiny polygons are easily missed however it appears
+           that most incidents which have a polygon also have a marker so lets
+           not duplicate this. Also by using a thick polygon border style small
+           areas aren't so easily missed */
+        /*if (feature.geometry.type == 'Polygon') {
             var centerMarker = createMarker(feature, layer.getBounds().getCenter()).addTo(map);
             centerMarker.bindPopup(html, {showOnMouseOver: true});
-        }
+        }*/
     } else {
         console.log("Found a feature with properties, but no description property, so won't be mapped.");
     }
@@ -253,7 +268,7 @@ function onEachFeature(feature, layer) {
 /* create the leaflet map */
 var map = L.map('map');
 
-/* remove attribution */
+/* remove Leaflet attribution */
 map.attributionControl.setPrefix('');
 
 /* set the view for NSW ( S W N E ) */
@@ -262,11 +277,13 @@ map.fitBounds([
         [-28.071, 153.896]
         ]);
 
+/* use OSM as the base map */
 L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 18,
         attribution: 'Base map &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
+/* add the major incidents geojson feed */
 $.getJSON('//tianjara.net/data/rfs/majorIncidents.json', function (data) {
         L.geoJson(data, {
             style: polygonStyle,
