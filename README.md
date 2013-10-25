@@ -26,14 +26,6 @@ This is a very simple almost textbook use of Leaflet and I'm very pleased with
 how easy it actually was to get working. There is still lots left to implement
 though.
 
-# Invalid GeoRSS
-P.S. RFS, your GeoRSS feed doesn't comply with the GeoRSS specification. "A
-polygon contains a space seperated list of latitude-longitude pairs, with each
-pair separated by whitespace. There must be at least four pairs, with the last
-being identical to the first (so a polygon has a minimum of three actual
-points)." doesn't allow you to simply list a set of two identical coordinates.
-That is what the georss:point element is for.
-
 # Work in Progress
 This is still very much a work in progress in the coming days I should be able
 to quite a few more improvements.
