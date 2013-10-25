@@ -166,6 +166,15 @@ function createMarker(feature, latlng) {
     //return new HoverPopupMarker(latlng, { icon: icon });
 }
 
+/* given a size in format "10000 ha" will format this as "10,000 ha" */
+function formatSize(size) {
+    if (size.split(/ /).length == 2) {
+        return numeral(size.split(/ /)[0]).format('0,0') + " " + size.split(/ /)[1];
+    } else {
+        return size; // unable to format
+    }
+}
+
 /* for each feature from the GeoJSON do some extra tasks */
 function onEachFeature(feature, layer) {
     /* FIXME we should still map features with properties but no description,
@@ -215,7 +224,7 @@ function onEachFeature(feature, layer) {
             "type": properties["TYPE"],
             "type": properties["TYPE"],
             "fire": properties["FIRE"],
-            "size": properties["SIZE"],
+            "size": formatSize(properties["SIZE"]),
             "council": properties["COUNCIL AREA"],
             "responsible-agency": properties["RESPONSIBLE AGENCY"],
             "last-update": properties["UPDATED"],
