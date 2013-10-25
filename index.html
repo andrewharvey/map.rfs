@@ -18,6 +18,8 @@
         <!--[if lte IE 8]><link rel="stylesheet" href="/javascript/fonts-font-awsome/css/font-awesome-ie7.min.css" /><![endif]-->
 
         <!-- scripts -->
+        <script src="/javascript/jquery/jquery.min.js"></script>
+
         <script src="/javascript/bootstrap/js/bootstrap.min.js"></script>
         <script src="lib/bootbox.min.js"></script>
 
@@ -25,10 +27,12 @@
         <script src="lib/leaflet-awsome-markers/leaflet.awesome-markers.min.js"></script>
         <script src="hoverPopupMarker.js"></script>
 
-        <script src="/javascript/jquery/jquery.min.js"></script>
         <script src="lib/mustache.js"></script>
         <script src="lib/moment.min.js"></script>
         <script src="lib/numeral.min.js"></script>
+
+        <script src="popupTemplate.js"></script>
+        <script src="app.js"></script>
 
         <!-- full screen map, no chrome -->
         <style>
@@ -105,7 +109,6 @@
 </head>
 <body>
         <div id="map"></div>
-        <script src="popupTemplate.js"></script>
         <script src="map.js"></script>
 </body>
 </html>
