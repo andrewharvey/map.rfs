@@ -46,17 +46,7 @@ if [ $? -ne 0 ] ; then
 fi
 
 # convert the GeoRSS to GeoJSON
-ogr2ogr -f 'GeoJSON' "$geojson" "$FILE" 2> /dev/null
-
-# At the time of writing, the GeoRSS feed supplied by the RFS doesn't conform
-# with the GeoRSS specification, because it contains single point polygons. As
-# such OGR will warn about this, but should gracefully proceed.
-
-# if ogr2ogr fails exit with an error code
-if [ $? -ne 0 ] ; then
-   rm -f "$FILE"
-   exit 4
-fi
+./rfs-major-incident-georss-to-geojson.pl "$FILE" "$geojson" 2> /dev/null
 
 # remove the temporary incident feed
 rm -f "$FILE"
