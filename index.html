@@ -4,27 +4,31 @@
   This file is licenced CC0 http://creativecommons.org/publicdomain/zero/1.0/
 -->
 <head>
-        <title>map.rfs Major Incidents</title>
+        <title>map.rfs - NSW RFS Major Incidents Map</title>
 
         <!-- support for mobile devices -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
+        <!-- stylesheets -->
+        <link rel="stylesheet" href="/javascript/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="/javascript/fonts-font-awesome/css/font-awesome.min.css" />
-        <link rel="stylesheet" href="lib/leaflet-awsome-markers/leaflet.awesome-markers.css" />
         <link rel="stylesheet" href="/javascript/leaflet/leaflet.css" />
         <!--[if lte IE 8]><link rel="stylesheet" href="/javascript/leafelt/leaflet.ie.css" /><![endif]-->
+        <link rel="stylesheet" href="lib/leaflet-awsome-markers/leaflet.awesome-markers.css" />
         <!--[if lte IE 8]><link rel="stylesheet" href="/javascript/fonts-font-awsome/css/font-awesome-ie7.min.css" /><![endif]-->
+
+        <!-- scripts -->
+        <script src="/javascript/bootstrap/js/bootstrap.min.js"></script>
+        <script src="lib/bootbox.min.js"></script>
+
         <script src="/javascript/leaflet/leaflet.js"></script>
         <script src="lib/leaflet-awsome-markers/leaflet.awesome-markers.min.js"></script>
         <script src="hoverPopupMarker.js"></script>
+
         <script src="/javascript/jquery/jquery.min.js"></script>
-        <script src="lib/bootbox.min.js"></script>
         <script src="lib/mustache.js"></script>
         <script src="lib/moment.min.js"></script>
         <script src="lib/numeral.min.js"></script>
-
-        <link rel="stylesheet" href="/javascript/bootstrap/css/bootstrap.min.css">
-        <script src="/javascript/bootstrap/js/bootstrap.min.js"></script>
 
         <!-- full screen map, no chrome -->
         <style>
@@ -54,9 +58,14 @@
                   Popup Style
                   ************************************************************/
 
-                /* overwrite default leaflet styles */
+                /* overwrite default leaflet style */
                 .leaflet-popup-content {
                     line-height: 1.0;
+                }
+
+                h4 {
+                    text-align: center;
+                    font-weight: bold;
                 }
 
                 /* graphic info-box */
@@ -81,25 +90,16 @@
                     font-size: 125%;
                 }
 
-                .row {
-                    /*margin-bottom: 5px;*/
-                }
-
-                h4 {
-                    text-align: center;
-                    font-weight: bold;
-                }
-
-                .subscribe {
-                    text-align: center;
-                }
-
                 /* properties table */
                 .key {
                     font-weight: bold;
                 }
                 .key:after {
                     content: ": ";
+                }
+
+                .subscribe {
+                    text-align: center;
                 }
         </style>
 </head>
