@@ -77,16 +77,20 @@ function statusToTooltip(statusValue) {
 
 /* create the fire polygon styles */
 var emergencyPolygonStyle = {
-    'color': alertLevelStyle.emergency
+    'color': alertLevelStyle.emergency,
+    'fillOpacity': 0.2
 };
 var watchAndActPolygonStyle = {
-    'color': alertLevelStyle.watchAndAct
+    'color': alertLevelStyle.watchAndAct,
+    'fillOpacity': 0.2
 };
 var advicePolygonStyle = {
-    'color': alertLevelStyle.advice
+    'color': alertLevelStyle.advice,
+    'fillOpacity': 0.2
 };
 var notApplicablePolygonStyle = {
-    'color': alertLevelStyle.notApplicable
+    'color': alertLevelStyle.notApplicable,
+    'fillOpacity': 0.2
 };
 
 /* icon to use for the fire markers */
@@ -171,6 +175,12 @@ function formatSize(size) {
 
 /* for each feature from the GeoJSON do some extra tasks */
 function onEachFeature(feature, layer) {
+    /* highlight feature on highlight */
+    layer.on({
+        mouseover: highlightFeature,
+        mouseout: resetHighlight
+    });
+
     /* FIXME we should still map features with properties but no description,
      * but for now we don't do this */
     if (feature.properties && feature.properties.description) {
@@ -249,8 +259,26 @@ function onEachFeature(feature, layer) {
     }
 }
 
+var incidentLayer;
+
+function resetHighlight(e) {
+    if (incidentLayer) {
+        incidentLayer.resetStyle(e.target);
+    }
+}
+
+function highlightFeature(e) {
+    var layer = e.target;
+
+    var highlightStyle = polygonStyle(layer);
+
+    highlightStyle.fillOpacity = 0.5;
+
+    layer.setStyle(highlightStyle);
+}
+
 function addIncidentLayer(map, data) {
-    L.geoJson(data, {
+    incidentLayer = L.geoJson(data, {
         style: polygonStyle,
         pointToLayer: createMarker,
         onEachFeature: onEachFeature
