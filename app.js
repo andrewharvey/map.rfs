@@ -119,7 +119,7 @@ var notApplicableIcon = L.AwesomeMarkers.icon({
 });
 
 /* function to set the polygon style for each feature */
-function polygonStyle(feature) {
+function firePolygonStyle(feature) {
     if (feature.properties && feature.properties.category) {
         /* style by RSS item category (which is the incident status) */
         switch (feature.properties.category) {
@@ -144,7 +144,7 @@ function polygonStyle(feature) {
 }
 
 /* create a marker for this feature */
-function createMarker(feature, latlng) {
+function createFireMarker(feature, latlng) {
     var icon = new L.Icon.Default();
 
     if (feature.properties && feature.properties.category) {
@@ -178,7 +178,7 @@ function formatSize(size) {
 }
 
 /* for each feature from the GeoJSON do some extra tasks */
-function onEachFeature(feature, layer) {
+function onEachFireFeature(feature, layer) {
     /* highlight feature on highlight */
     layer.on({
         mouseover: highlightFeature,
@@ -255,7 +255,7 @@ function onEachFeature(feature, layer) {
            not duplicate this. Also by using a thick polygon border style small
            areas aren't so easily missed */
         /*if (feature.geometry.type == 'Polygon') {
-            var centerMarker = createMarker(feature, layer.getBounds().getCenter()).addTo(map);
+            var centerMarker = createFireMarker(feature, layer.getBounds().getCenter()).addTo(map);
             centerMarker.bindPopup(html, {showOnMouseOver: true});
         }*/
     } else {
@@ -274,7 +274,7 @@ function resetHighlight(e) {
 function highlightFeature(e) {
     var layer = e.target;
 
-    var highlightStyle = polygonStyle(layer);
+    var highlightStyle = firePolygonStyle(layer);
 
     highlightStyle.fillOpacity = 0.5;
 
@@ -283,8 +283,8 @@ function highlightFeature(e) {
 
 function addIncidentLayer(map, data) {
     incidentLayer = L.geoJson(data, {
-        style: polygonStyle,
-        pointToLayer: createMarker,
-        onEachFeature: onEachFeature
+        style: firePolygonStyle,
+        pointToLayer: createFireMarker,
+        onEachFeature: onEachFireFeature
     }).addTo(map);
 }
