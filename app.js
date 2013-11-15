@@ -99,19 +99,23 @@ var fireMarkerIcon = 'fire';
 /* create the fire markers */
 var emergencyIcon = L.AwesomeMarkers.icon({
     icon: fireMarkerIcon,
-    color: alertLevelStyle.emergency 
+    prefix: 'fa',
+    markerColor: alertLevelStyle.emergency 
 });
 var watchAndActIcon = L.AwesomeMarkers.icon({
     icon: fireMarkerIcon,
-    color: alertLevelStyle.watchAndAct
+    prefix: 'fa',
+    markerColor: alertLevelStyle.watchAndAct
 });
 var adviceIcon = L.AwesomeMarkers.icon({
     icon: fireMarkerIcon,
-    color: alertLevelStyle.advice
+    prefix: 'fa',
+    markerColor: alertLevelStyle.advice
 });
 var notApplicableIcon = L.AwesomeMarkers.icon({
     icon: 'info',
-    color: alertLevelStyle.notApplicable
+    prefix: 'fa',
+    markerColor: alertLevelStyle.notApplicable
 });
 
 /* function to set the polygon style for each feature */

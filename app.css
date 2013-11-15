@@ -38,6 +38,11 @@
     font-size: 125%;
 }
 
+/* fix positioning of icons */
+.incident-popup .info-icon {
+    left: 0;
+}
+
 /* properties table */
 .incident-popup .key {
     font-weight: bold;
