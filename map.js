@@ -30,3 +30,11 @@ $.getJSON('//tianjara.net/data/rfs/majorIncidents.json', function (data) {
 
 /* add RFS attribution */
 map.attributionControl.addAttribution('Major Incident data &copy; <a href="http://www.rfs.nsw.gov.au/feeds/majorIncidents.xml">NSW Rural Fire Service</a>');
+
+/* add the GA hotspots feed */
+$.getJSON('//tianjara.net/data/ga/sentinel.json', function (data) {
+        addSentinelLayer(map, data)
+        });
+
+/* add Sentinel attribution */
+map.attributionControl.addAttribution('MODIS Hotspots &copy; <a href="http://sentinel.ga.gov.au/RSS/sentinelrss.xml">Based on Geoscience Australia material.</a>');

@@ -54,3 +54,53 @@
 .incident-popup .subscribe {
     text-align: center;
 }
+
+
+/**************************************************************
+  Sentinel Popup Style
+ ************************************************************/
+
+/* overwrite default leaflet style */
+.sentinel-popup .leaflet-popup-content {
+    line-height: 1.0;
+}
+
+.sentinel-popup h4 {
+    text-align: center;
+    font-weight: bold;
+}
+
+/* graphic info-box */
+.sentinel-popup .info-box {
+    text-align: center;
+    padding: 10px;
+}
+
+/* put one box on the left and one on the right */
+.sentinel-popup .temp-box {
+    width: 50%;
+    float: left;
+}
+.sentinel-popup .conf-box {
+    width: 50%;
+    float: right;
+}
+
+/* text-value for the info-box's */
+.sentinel-popup .box-label {
+    font-weight: bold;
+    font-size: 125%;
+}
+
+/* fix positioning of icons */
+.sentinel-popup .info-icon {
+    left: 0;
+}
+
+/* properties table */
+.sentinel-popup .key {
+    font-weight: bold;
+}
+.sentinel-popup .key:after {
+    content: ": ";
+}

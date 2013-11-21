@@ -1,0 +1,47 @@
+<!--
+Mustache template for the sentinel popup
+This file is licenced CC0 http://creativecommons.org/publicdomain/zero/1.0/
+-->
+<div class="sentinel-popup">
+    <h4>MODIS Hotspot</h4>
+    <div class="row">
+        <div class="temp-box info-box">
+            <span class="key">Temperature</span>
+            <br>
+            <span class="{{temp-color}} box-label">{{temp}}&deg;C</span>
+        </div>
+        <div class="conf-box info-box">
+            <span class="key">Confidence</span>
+            <br>
+            <span class="{{conf-color}} box-label">{{conf}}</span>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <table class="table table-condensed table-striped">
+            <tbody>
+            <!--
+                <tr>
+                    <td class="key">Temperature</td>
+                    <td>{{temp}}&deg;C</td>
+                </tr>
+
+                <tr>
+                    <td class="key">Confidence</td>
+                    <td>{{conf}}</td>
+                </tr>
+            -->
+
+                <tr>
+                    <td class="key">Observed by</td>
+                    <td>{{satellite}}</td>
+                </tr>
+
+                <tr>
+                    <td class="key">Observed at</td>
+                    <td>{{obs-human-ago}}, {{obs-human}}<br>
+                        <small>({{obs}})</small></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
