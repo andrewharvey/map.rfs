@@ -20,7 +20,7 @@ if [ -z "$geojson" ] ; then
   exit 1
 fi
 
-# make a temporary file to store the GeoRSS incident feed
+# make a temporary file to store the GeoRSS feed
 FILE=`mktemp tmp.XXXXXXXXXX.xml`
 
 # if mktemp fails for any reason then don't proceed
@@ -34,7 +34,7 @@ if [ -e "$geojson" ] ; then
   rm -f "$geojson"
 fi
 
-# try to download the latest incident feed
+# try to download the latest feed
 wget --quiet --output-document="$FILE" "$FEED"
 
 # If wget fails for any reason then don't proceed.

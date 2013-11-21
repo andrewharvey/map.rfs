@@ -1,5 +1,5 @@
 #
-# Regular cron job to run the GeoRSS to GeoJSON RFS Major Incident Feed
+# Regular cron job to run the GeoRSS to GeoJSON GA Sentinel Hotspots Feed
 # conversion.
 #
 
@@ -10,9 +10,6 @@
 # rights to this work.
 # http://creativecommons.org/publicdomain/zero/1.0/
 #
-# According to the RFS web site their incident information is only updated every
-# 30 minutes, which I think is too long, but given this, polling every 10
-# minutes from our end seems like a good interval.
 
 # m h dom mon dow user  command
 23 * * * *      root    [ -x /usr/sbin/sentinel-update ] && /usr/sbin/sentinel-update /var/www/data/ga/sentinel.json > /dev/null

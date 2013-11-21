@@ -1,5 +1,5 @@
 /*
- * Application code for map.rfs
+ * Sentinel code for map.rfs
  *
  * This file is licenced CC0 http://creativecommons.org/publicdomain/zero/1.0/
  *
@@ -43,11 +43,6 @@ function onEachSentinelFeature(feature, layer) {
         }
 
         /* now we have a proper properties object to work with */
-
-        /* hmm... do we use feature.properties.pubDate or
-         * feature.properties.description.UPDATED ?
-         * They appear to be the same, except pubDate is less ambiguous because
-         * it is GMT whereas UPDATED the time zone isn't specified. */
 
         /* data we pass into our Mustache popup template */
         var templateData = {
