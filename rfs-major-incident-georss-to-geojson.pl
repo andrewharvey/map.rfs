@@ -62,9 +62,31 @@ if ( ! -r $georss_file ) {
     exit 1;
 }
 
+# XML::Parser doesn't support UTF-16
+# See http://stackoverflow.com/questions/28100716/is-there-a-way-to-get-xmltwig-to-understand-a-utf-16-encoded-xml-file
+use XML::LibXML qw( );
+
+my $xmlstring;
+{
+    open(my $fh, '<:raw', $ARGV[0])
+        or die $!;
+    local $/;
+    $xmlstring = <$fh>;
+}
+
+{
+    #my $doc = XML::LibXML->new()->parse_string($xmlstring);
+    #$doc->setEncoding('UTF-8');
+    #$xmlstring = $doc->toString();
+    
+    $xmlstring =~ s/encoding="utf-16"/encoding="utf-8"/;
+}
+
+print STDERR "Converted to UTF-8\n";
+
 # parse the RSS file using an XML parser
 my $xml = XML::Simple->new();
-my $doc = $xml->XMLin($ARGV[0]);
+my $doc = $xml->XMLin($xmlstring);
 
 # during development it was handy to Dump the whole $doc structure
 #use Data::Dumper;
