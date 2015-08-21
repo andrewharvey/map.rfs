@@ -203,7 +203,7 @@ function onEachFireFeature(feature, layer) {
                because VALUE may have multiple newline characters, we need the /s modifier so that the dot
                matches newline, but since it doesn't exist in javascript we use [\s\S] instead of the dot
                */
-            var matches = attributes[i].match(/^(.*):\s+([\s\S]*)$/);
+            var matches = attributes[i].match(/^\s*(.*):\s+([\s\S]*)$/);
             if (matches && (matches.length == 3)) {
                 var key = matches[1];
                 var value = matches[2];
