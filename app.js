@@ -236,7 +236,7 @@ function onEachFireFeature(feature, layer) {
             "size": formatSize(properties["SIZE"]),
             "council": properties["COUNCIL AREA"],
             "responsible-agency": properties["RESPONSIBLE AGENCY"],
-            "last-update": properties["UPDATED"],
+            "last-update": properties["UPDATED"].split(/\<a/).shift(), //hack to remove links
             "last-update-human": moment(feature.properties.pubDate).calendar(),
             "last-update-human-ago": moment(feature.properties.pubDate).fromNow(),
             "location": properties["LOCATION"]
