@@ -170,7 +170,7 @@ function createFireMarker(feature, latlng) {
 
 /* given a size in format "10000 ha" will format this as "10,000 ha" */
 function formatSize(size) {
-    if (size.split(/ /).length == 2) {
+    if (size !== undefined && size.split(/ /).length == 2) {
         return numeral(size.split(/ /)[0]).format('0,0') + " " + size.split(/ /)[1];
     } else {
         return size; // unable to format
